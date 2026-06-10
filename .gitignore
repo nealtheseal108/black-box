@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.venv/
+venv/
+.env
+.DS_Store
+corpus/warsh_corpus.jsonl
+corpus/warsh_corpus.manifest.json
+corpus/raw/
+models/*.pkl
+output/priors/
