@@ -1,0 +1,236 @@
+title: Lessons Learned from 10 Years of QE (AEI remarks)
+date: 2018-06-07
+context_type: speech
+url: web
+---
+1 
+ 
+ 
+ 
+American Enterprise Institute: 
+Lessons Learned from 10 Years of Quantitative Easing 
+ 
+ 
+ 
+The Knowledge Problem 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Kevin Warsh 
+Shepard Family Distinguished Visiting Fellow in Economics 
+Hoover Institution 
+Stanford University 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+June 7, 2018 
+ 
+
+2 
+ 
+“[W]hereas skepticism and uncertainty have always been the heart and soul of science, 
+confidence and certainty are the coin of the realm in much of today’s public discourse.” 
+ 
+-- Sue Desmond-Hellman, CEO, Bill & Melinda Gates Foundation 
+ 
+ 
+I am honored to be here alongside my Chairman, Ben Bernanke. 
+ 
+Ben was the academic star whose remarkable leadership attributes emerged during our nation’s darkest 
+days. And I was fortunate to be at Ben’s side, tasked with distilling market signals and leading a SWAT 
+team of immensely talented, tireless Fed professionals. 
+ 
+When the panic of 2008 showed few signs of abating, I was struck by Ben’s preternatural calm, wisdom, 
+and humility during the battle. These character traits are no less essential today to secure an enduring 
+peace. 
+ 
+Unlike QE’s loudest voices-- zealous supporters and unabashed critics-- Ben and I were “present at the 
+creation” in Dean Acheson’s famous words. So, neither of us have clean hands – nor perhaps thoughts 
+sufficiently detached – to offer a perfected judgment on the topic, ten years hence. 
+ 
+You can judge whether our launch of QE to help defeat the panic makes us reliable scribes of the next 
+draft of history. And you can assess whether my co-authorship of QE1 under Ben’s leadership when we 
+were at sea in 2008-- and my decision to get off the boat a couple years later after the waters calmed 
+and QE2 was christened—was wise or foolhardy. 
+ 
+QE appears to be getting less attention recently than the heated interest rate debate, as if the hard 
+questions around QE are resolved. Whether the FOMC raises short-term rates another 50 or 75 basis 
+points this year is incidental to economic growth and employment this year and next. And while the 
+FOMC participants may be caricatured as hawks and doves based on their professed ‘dots’, the 
+monetary lessons of this era will be found elsewhere. The real money is on central bank balance sheets. 
+ 
+A Decade Ago 
+ 
+If, with a snap of the fingers, you could eavesdrop on our discussions in Ben’s office a decade ago, you 
+would hear us conceive of QE1 in a late night “blue sky” discussions. You wound not detect any great 
+confidence in QE’s prospects. Nor would you hear us elevate the import of QE over other newfangled 
+policy tools. And you would hear no inkling that a decade later the world’s central banks would still be 
+carrying more than $10 trillion stock of global QE assets, with hundreds of billions of net global QE 
+purchases still being added. 
+ 
+If you traveled back in time and informed us of QE’s dominance a decade later, our faces would look 
+more ashen and our spirits sullen, figuring that our monetary experiment failed, a decade of malaise 
+ensued, fiscal dominance prevailed, and an unwind of QE proved impossible. We would be shocked to 
+hear the juxtaposition in 2018 of peak QE and a global economic boom. 
+
+3 
+ 
+And what if you time-traveled to eavesdrop on our discussion in Ben’s office 8 years ago? During the 
+difficult, internal Fed debate in the summer and fall of 2010, we pushed each other on the relative risks 
+and rewards of employing war-time policy tools during peace time. I asked a colleague what he would 
+advise if QE2 succeeded, and he told me we should probably do more of it. I then asked what should we 
+do if QE2 did not succeed, he hesitated, shrugged his shoulders, and said we might well need to do more 
+of it. A theory deserves special scrutiny if it can’t be disproved. 
+ 
+What began as an ad hoc, necessary, risky Fed policy response to stem a panic morphed into standard 
+operating procedure. The economic regime shifted markedly from crisis to recovery to sustained 
+growth. But you would scarcely know it from the stock and flow of QE. 
+ 
+A decade should have been plenty sufficient to provide strong, compelling evidence of the wisdom or 
+folly of the QE seriatim experiment. But, it is not. For the central bank community evaluating QE, we are 
+still in the thick of history. The ‘mission accomplished’ signs being trotted out by some advocates should 
+be stowed away. There is no Q.E.D. to QE, even a decade later. 
+ 
+Preliminary Judgments 
+ 
+Policymakers confront the knowledge problem, which has dogged scientists for millennia. Central 
+bankers have no control groups. And with QE, we have neither the benefit of any historical comparison 
+nor a natural experiment: most of the rest of the world’s central banks largely remade our policy tool as 
+their own. 
+ 
+So, with those heavy heaps of humility in hand, I will offer several judgments, however unprovable at 
+this remove. 
+ 
+First, QE1 was a success. But it didn’t work in isolation as a panic antidote. It worked in concert, 
+however haphazardly, with other Fed talk and tools on offer. And it probably didn’t work directly. Fed 
+purchases brought needed liquidity to illiquid markets, but more so, it crowded in private capital. Our 
+liquidity provision bolstered market prices, but higher asset prices were largely the result of improved 
+liquidity inducing higher volumes and better matching of bids and offers. 
+ 
+Second, QE2 and its progeny may have had a small, positive impact on employment and output. But 
+assigning credit of a couple of tenths of one percent of annual GDP to incremental QE provisioning is 
+outside the confidence interval of the profession. Increases in consumption facilitated by lower rates 
+and higher asset prices may or may not have been ultimately offset by, among other things, lower 
+consumption in the out years and lower non-residential fixed investment, which remained 
+anachronistically weak. In fact, the acceleration in output and employment in recent quarters, including 
+a notable increase in business capital expenditures, may well be a function of changes in both fiscal 
+policy and monetary policy, including some clarity about the Fed’s QE exit plan. 
+ 
+Third, the effect of QE on financial assets is considerably more significant than its effects on real assets 
+and the real economy. Stocks, credit and other risk assets currently trade at materially higher values 
+than they would absent global QE. Some leading economists seem to believe that QE is now somehow 
+
+4 
+ 
+immaterial to financial asset prices. They believe that stocks and other risk-assets are trading at fair and 
+reliable prices in a durable equilibrium. That was largely the Fed’s view in the mid- to late- 2000s when 
+the Great Moderation was the consensus moniker for benign conditions and a rosy outlook. Many of us 
+deserve some bit of blame for assenting to the notion the U.S. was approaching the end of economic 
+history-- that the profession’s knowledge was so advanced such that significant economic shocks could 
+be avoided. I fear we are mistaken again. 
+ 
+Fourth, the real returns to household wealth have proven significantly larger than to household income. 
+QE, in my view, is a material part of the inequality story. The distributional effects of QE across 
+households are significant. Despite all-time highs in stock and home prices, household net worth since 
+2007 is down for all income groups except for the top ten 10%. Net worth for the top decile is up an 
+average of 27%. For the middle deciles, it’s down 20 to 30% in real terms.1 
+ 
+Fifth, inflation is a poor barometer of the wisdom or folly of QE2 and its successors. Prevailing theories 
+of inflation dynamics are not sufficiently robust to allow policymakers to fine-tune the delta between 
+current inflation and inflation targets based on incremental stock or flow of QE. Too often, inflation is 
+used as a cudgel against QE skeptics. And to those who predicted hyperinflation, an effective rhetorical 
+cudgel. But, those of us who were actually in the arena voiced concerns which are not so readily 
+dismissed. 
+ 
+My overriding concern about continued QE, then and now, involves the misallocations of capital in the 
+economy and the misallocation of responsibility in our government. Misallocations seldom operate 
+under their own name. They choose other names to hide behind. They tend to linger for years in plain 
+sight. Until they emerge with force at the most inauspicious of times and do unexpected harm to the 
+economy. 
+ 
+So What Really Separates QE’s Fiercest Advocates from its Unabashed Critics? 
+ 
+Policymakers evaluate the benefits and risks of QE differently at different points in the economic cycle. 
+These differing judgments are often ascribed to differences in economic forecasts. But the recited 
+explanation is insufficient. Several questions may help sort out the substantive differences among us. 
+ 
+How important are price signals? 
+ 
+Price signals are precious. Market price, volume, volatility, trend, and correlation are replete with 
+information. A policy that seeks to fix or administer a price mutes an invaluable source of insight. So, 
+the bar to quashing price signals is a high one. And when the asset is the ten-year U.S Treasury bond, it 
+obfuscates the true value of the most important price signal in the world’s financial markets. If price 
+signals are judged to be less essential to optimize economic growth, then the adoption of continued QE 
+programs is easier to justify. 
+ 
+ 
+ 
+1 Deutsche Bank Research, March 2018. 
+
+5 
+ 
+ 
+How well do policymakers understand and incorporate individuals’ decision-making? 
+ 
+Our economy is highly complex and dynamic. The micro-foundations of macro are central, but 
+imperfectly incorporated. Millions of decisions made daily by individuals are irreducible in the most 
+sophisticated macroeconomic models. The imposition of a newfangled policy like QE on decision-
+makers is more complex than generally acknowledged by QE advocates. As Richard Reis noted: 
+“Forecasting when the forecasts cause changes in policy, which make people change their choices, 
+which in turn make it required to revise the forecasts, is iteratively hard.” (Reis, 2018). 
+ 
+How should the Fed best accomplish its objectives? 
+ 
+Some are reassured by the quality of economic data, prescient about global economic developments, 
+and confident of the effects of policy choices on the economy. That makes fine-tuning GDP, 
+employment, and inflation targets unobjectionable. For the rest of us, the knowledge problem is real. It 
+inclines us to recognize that business and financial cycles are real and enduring. And inclines us to want 
+to direct the Fed’s considerable monetary capabilities to offset major disturbances arising in the 
+economy. Focus on the tails, not the median. Large shocks, after all, push the Fed farthest away from 
+its inflation and output objectives. Our relative success in dealing with the crisis a decade ago is notable. 
+Buying more insurance against a shock in the years that preceded the crisis could have gone a long way. 
+ 
+And finally, how durable is the Fed’s status and responsibilities? 
+ 
+In the course of American history, we have two prior experiments in central banking. That history 
+should remind us of the precariousness of the central bank’s powers and the tenuousness of its special 
+position in our democracy. So even after the Fed’s recent centennial, we ought not to take our third 
+experiment as an independent central bank for granted. 
+ 
+The Fed’s monetary powers are rightly heightened in times of panic when central bank liquidity is most 
+needed. When crises erupt, the lines between fiscal and monetary policy becomes blurrier. 
+As the crises dissipate, the ex ante allocation of responsibility should become clear and sound. And the 
+line between fiscal and monetary policy should be jealously guarded by its protectors on each side. 
+ 
+Conclusion 
+ 
+I come to today’s discussion as a candid friend. We ought not depart from today’s debate and repair to 
+the ideological conformity of our own. Ben Bernanke assembled a group of different-minded people to 
+prepare for the fight of our lives, and used us each to improve the deliberative process and ensure 
+better decision-making. We should embrace a comparable mind-set today. 
+ 
+
+6 
+ 
+References 
+ 
+Desmond-Hellman, S. (2018) “Be Skeptical of Those Who Treat Science as an Ideology.” Wall Street 
+Journal, January 19. 
+ 
+Reis, Richard (2018) “Is Something Really Wrong with Macroeconomics?” Oxford Review of Economic 
+Policy, Volume 34: 132-155.

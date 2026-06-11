@@ -40,6 +40,8 @@ SOURCES = [
     (_FED + "warsh20100326a.htm", parsers.parse_fed_speech, {}),
     (_FED + "warsh20100628a.htm", parsers.parse_fed_speech, {}),
     (_FED + "warsh20101108a.htm", parsers.parse_fed_speech, {}),
+    # Congressional testimony (Fed era) — same Fed HTML structure as speeches.
+    ("https://www.federalreserve.gov/newsevents/testimony/warsh20070711a.htm", parsers.parse_fed_speech, {}),
 ]
 
 
