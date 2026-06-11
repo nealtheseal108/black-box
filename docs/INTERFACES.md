@@ -21,8 +21,8 @@ Corpus persisted as **JSONL**: `corpus/warsh_corpus.jsonl` (one Document per lin
 The model is **inference-only at runtime** (Appendix A.3 — no weight updates per phrase). It exposes:
 ```python
 predict_next(context_tokens: list[str], k: int = 5) -> list[tuple[str, float]]   # top-k next phrases w/ probs
-phrase_signals(text: str) -> dict[str, float]   # signal phrase -> lift score (e.g. "inflation is a choice" -> hawkish weight)
-score_diction(text: str) -> dict[str, float]    # {"hawkish": .., "dovish": .., "independence": ..}
+phrase_signals(text: str) -> list[dict]   # matched signal phrases: [{"phrase","axis","weight"}, ...]  (axis ∈ hawkish|dovish|independence|qt)
+score_diction(text: str) -> dict[str, float]    # {"hawkish": .., "dovish": .., "independence": .., "qt": ..}
 ```
 Persisted artifact: `models/warsh_model.pkl` (or json). Phrase→market mapping seed lives in `docs/phrase_market_map.md` (Brief §4.1); C2 lift scores refine it.
 

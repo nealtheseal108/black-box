@@ -21,6 +21,19 @@ Format reference: Authority Matrix is §7 of the Program Brief. Defaults accepte
 
 ---
 
+## 2026-06-10
+
+### D3 — `phrase_signals` returns `list[dict]`, not `dict[str,float]`
+- **Decision:** The diction model's `phrase_signals(text)` returns `[{"phrase","axis","weight"}, ...]` (matched signal phrases with their axis + weight), superseding the original INTERFACES §2 `dict[str,float]` (phrase→lift) sketch.
+- **Rationale:** The richer form carries the signal **axis** (hawkish/dovish/independence/qt) and **weight**, which C5/C6 need to map diction → market signal. Lift scores live separately in the fingerprints module. Implemented + tested in C2.
+- **Authority:** Autonomous (code interface; §7). INTERFACES.md §2 updated to match.
+
+### D4 — Foreground-only builds; consistent commit+push to black-box
+- **Decision:** Build components in the **foreground** (background subagents lack Bash here). Commit + push to `origin` (black-box) after every component. Hard rules recorded in CLAUDE.md.
+- **Authority:** Owner-directed (2026-06-10).
+
+---
+
 ## Accepted defaults (from Authority Matrix §7)
 Logged per Rule 2 — accepted unless evidence says otherwise.
 
