@@ -56,10 +56,10 @@ C5 and C6 are the join points: C5 needs C2 (model) + Powell transcripts; C6 need
 - **R4:** Corpus quality — April-21 hearing is the single highest-value document; manual ingestion is owner-only.
 
 ## Per-subsystem plan index
-- [ ] `docs/superpowers/plans/2026-06-09-c1-warsh-corpus-scraper.md` — **(this session)**
-- [ ] C2 build_model.py — n-grams, phrase fingerprints, lexicon, transition matrix
-- [ ] C4 context_agent.py — Mode 1 prior synthesis
-- [ ] C5 backtest.py — two-level validation
-- [ ] C6 live_predictor.py — STT → inference → signal
-- [ ] C7 kalshi_trader.py — paper-trading first
+- [x] `docs/superpowers/plans/2026-06-09-c1-warsh-corpus-scraper.md` — **DONE, merged to master (15 tests)**
+- [x] `docs/superpowers/plans/2026-06-10-c2-diction-model.md` — planned; building (parallel worktree)
+- [x] `docs/superpowers/plans/2026-06-10-c4-context-agent.md` — planned; building (parallel worktree)
+- [x] `docs/superpowers/plans/2026-06-10-c7-kalshi-trader.md` — planned; building (parallel worktree)
+- [ ] C5 backtest.py — two-level validation (needs C2)
+- [ ] C6 live_predictor.py — STT → inference → signal (needs C2+C4+C7)
 - [ ] C8 dashboard — wire to live feeds
