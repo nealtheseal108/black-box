@@ -1,5 +1,301 @@
 <!DOCTYPE html>
 <html lang="en">
-<head><meta charset="UTF-8"><title>SpeechEdge Dashboard</title></head>
-<body><p>Loading...</p></body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SpeechEdge Dashboard</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: "Segoe UI", system-ui, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      min-height: 100vh;
+      padding: 1.5rem;
+    }
+
+    h1 { font-size: 1.4rem; color: #e6edf3; margin-bottom: 1.5rem; letter-spacing: 0.02em; }
+    h2 { font-size: 0.95rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.75rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      max-width: 1100px;
+    }
+    .panel {
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 1rem 1.25rem;
+    }
+    .panel.full-width { grid-column: 1 / -1; }
+
+    /* --- Transcript --- */
+    #transcript-text {
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: #c9d1d9;
+      min-height: 3rem;
+      word-break: break-word;
+    }
+
+    /* --- Tone gauge --- */
+    .gauge-bar-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-top: 0.5rem;
+    }
+    .gauge-label { font-size: 0.75rem; width: 80px; color: #8b949e; }
+    .gauge-track {
+      flex: 1;
+      height: 10px;
+      background: #21262d;
+      border-radius: 5px;
+      overflow: hidden;
+    }
+    .gauge-fill {
+      height: 100%;
+      border-radius: 5px;
+      transition: width 0.4s ease;
+    }
+    .fill-hawkish   { background: #f85149; }
+    .fill-dovish     { background: #3fb950; }
+    .fill-independence { background: #d29922; }
+    .fill-qt         { background: #a371f7; }
+    .gauge-pct { font-size: 0.75rem; width: 36px; text-align: right; color: #8b949e; }
+
+    /* --- Market cards --- */
+    .cards-grid { display: flex; flex-direction: column; gap: 0.6rem; }
+    .card {
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+      padding: 0.65rem 1rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 0.5rem;
+      font-size: 0.82rem;
+    }
+    .card-ticker { font-weight: 600; color: #e6edf3; grid-column: 1 / -1; font-size: 0.9rem; }
+    .card-field label { display: block; font-size: 0.68rem; color: #8b949e; margin-bottom: 0.15rem; }
+    .card-field span { color: #c9d1d9; }
+    .edge-positive { color: #3fb950; }
+    .edge-negative { color: #f85149; }
+    .edge-neutral  { color: #8b949e; }
+    .side-yes { color: #3fb950; font-weight: 600; }
+    .side-no  { color: #f85149; font-weight: 600; }
+    .no-data { color: #484f58; font-style: italic; font-size: 0.82rem; }
+
+    /* --- Bet log --- */
+    table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    th { text-align: left; padding: 0.35rem 0.5rem; color: #8b949e; border-bottom: 1px solid #30363d; font-weight: 500; }
+    td { padding: 0.35rem 0.5rem; border-bottom: 1px solid #21262d; }
+    tr:last-child td { border-bottom: none; }
+    .sim-badge {
+      font-size: 0.65rem;
+      background: #21262d;
+      border: 1px solid #30363d;
+      border-radius: 3px;
+      padding: 0 4px;
+      color: #8b949e;
+    }
+
+    /* --- P&L --- */
+    .pnl-grid { display: flex; gap: 2rem; margin-top: 0.5rem; }
+    .pnl-item label { display: block; font-size: 0.72rem; color: #8b949e; margin-bottom: 0.2rem; }
+    .pnl-value { font-size: 1.6rem; font-weight: 700; }
+    .pnl-positive { color: #3fb950; }
+    .pnl-negative { color: #f85149; }
+    .pnl-zero     { color: #8b949e; }
+
+    /* --- Status bar --- */
+    #status { font-size: 0.72rem; color: #484f58; margin-top: 1rem; }
+    .dot {
+      display: inline-block; width: 6px; height: 6px;
+      border-radius: 50%; background: #3fb950;
+      margin-right: 5px; vertical-align: middle;
+    }
+    .dot.err { background: #f85149; }
+  </style>
+</head>
+<body>
+  <h1>SpeechEdge Live Dashboard</h1>
+
+  <div class="grid">
+    <!-- Transcript -->
+    <div class="panel full-width">
+      <h2>Live Transcript</h2>
+      <p id="transcript-text" class="no-data">Waiting for speech…</p>
+    </div>
+
+    <!-- Tone gauge -->
+    <div class="panel">
+      <h2>Tone Meter</h2>
+      <div id="tone-bars">
+        <div class="gauge-bar-wrap">
+          <span class="gauge-label">Hawkish</span>
+          <div class="gauge-track"><div id="bar-hawkish" class="gauge-fill fill-hawkish" style="width:0%"></div></div>
+          <span id="pct-hawkish" class="gauge-pct">0%</span>
+        </div>
+        <div class="gauge-bar-wrap">
+          <span class="gauge-label">Dovish</span>
+          <div class="gauge-track"><div id="bar-dovish" class="gauge-fill fill-dovish" style="width:0%"></div></div>
+          <span id="pct-dovish" class="gauge-pct">0%</span>
+        </div>
+        <div class="gauge-bar-wrap">
+          <span class="gauge-label">Independence</span>
+          <div class="gauge-track"><div id="bar-independence" class="gauge-fill fill-independence" style="width:0%"></div></div>
+          <span id="pct-independence" class="gauge-pct">0%</span>
+        </div>
+        <div class="gauge-bar-wrap">
+          <span class="gauge-label">QT</span>
+          <div class="gauge-track"><div id="bar-qt" class="gauge-fill fill-qt" style="width:0%"></div></div>
+          <span id="pct-qt" class="gauge-pct">0%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- P&L summary -->
+    <div class="panel">
+      <h2>P&amp;L</h2>
+      <div class="pnl-grid">
+        <div class="pnl-item">
+          <label>Realized</label>
+          <span id="pnl-realized" class="pnl-value pnl-zero">$0.00</span>
+        </div>
+        <div class="pnl-item">
+          <label>Open Positions</label>
+          <span id="pnl-open" class="pnl-value pnl-zero">0</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Market cards -->
+    <div class="panel full-width">
+      <h2>Market Cards</h2>
+      <div id="markets-grid" class="cards-grid">
+        <p class="no-data">No markets loaded.</p>
+      </div>
+    </div>
+
+    <!-- Bet log -->
+    <div class="panel full-width">
+      <h2>Micro-Bet Log</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Ticker</th><th>Side</th><th>Count</th><th>Fill Price</th><th>Timestamp</th><th>Type</th>
+          </tr>
+        </thead>
+        <tbody id="bet-log-body">
+          <tr><td colspan="6" class="no-data">No bets yet.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <p id="status"><span class="dot err" id="status-dot"></span>Connecting…</p>
+
+  <script>
+    function pct(v) { return Math.round((v || 0) * 100); }
+
+    function setBar(key, val) {
+      const p = pct(val);
+      document.getElementById('bar-' + key).style.width = p + '%';
+      document.getElementById('pct-' + key).textContent = p + '%';
+    }
+
+    function renderTone(tone) {
+      setBar('hawkish',      tone.hawkish      ?? 0);
+      setBar('dovish',       tone.dovish       ?? 0);
+      setBar('independence', tone.independence ?? 0);
+      setBar('qt',           tone.qt           ?? 0);
+    }
+
+    function renderMarkets(markets) {
+      const el = document.getElementById('markets-grid');
+      if (!markets || markets.length === 0) {
+        el.innerHTML = '<p class="no-data">No markets loaded.</p>';
+        return;
+      }
+      el.innerHTML = markets.map(m => {
+        const edgeCls = m.edge > 0.01 ? 'edge-positive' : m.edge < -0.01 ? 'edge-negative' : 'edge-neutral';
+        const sideCls = m.side === 'yes' ? 'side-yes' : 'side-no';
+        return `
+          <div class="card">
+            <div class="card-ticker">${m.ticker}</div>
+            <div class="card-field"><label>Prior</label><span>${(m.prior_prob * 100).toFixed(1)}%</span></div>
+            <div class="card-field"><label>Model</label><span>${(m.model_prob * 100).toFixed(1)}%</span></div>
+            <div class="card-field"><label>Price</label><span>${(m.yes_price * 100).toFixed(1)}¢</span></div>
+            <div class="card-field"><label>Edge</label><span class="${edgeCls}">${m.edge >= 0 ? '+' : ''}${(m.edge * 100).toFixed(1)}%</span></div>
+            <div class="card-field"><label>Side</label><span class="${sideCls}">${m.side.toUpperCase()}</span></div>
+          </div>`;
+      }).join('');
+    }
+
+    function renderBets(bets) {
+      const tbody = document.getElementById('bet-log-body');
+      if (!bets || bets.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" class="no-data">No bets yet.</td></tr>';
+        return;
+      }
+      tbody.innerHTML = [...bets].reverse().map(b => {
+        const sideCls = b.side === 'yes' ? 'side-yes' : 'side-no';
+        const sim = b.simulated ? '<span class="sim-badge">SIM</span>' : 'LIVE';
+        return `<tr>
+          <td>${b.ticker}</td>
+          <td class="${sideCls}">${b.side.toUpperCase()}</td>
+          <td>${b.count}</td>
+          <td>${(b.fill_price * 100).toFixed(1)}¢</td>
+          <td style="font-size:0.72rem;color:#8b949e">${b.timestamp}</td>
+          <td>${sim}</td>
+        </tr>`;
+      }).join('');
+    }
+
+    function renderPnl(pnl) {
+      const realized = pnl.realized ?? 0;
+      const open = pnl.open_positions ?? 0;
+      const rEl = document.getElementById('pnl-realized');
+      rEl.textContent = '$' + realized.toFixed(2);
+      rEl.className = 'pnl-value ' + (realized > 0 ? 'pnl-positive' : realized < 0 ? 'pnl-negative' : 'pnl-zero');
+      const oEl = document.getElementById('pnl-open');
+      oEl.textContent = open;
+      oEl.className = 'pnl-value ' + (open > 0 ? 'pnl-positive' : 'pnl-zero');
+    }
+
+    async function fetchState() {
+      try {
+        const res = await fetch('/api/state');
+        if (!res.ok) throw new Error(res.status);
+        const data = await res.json();
+
+        // Transcript
+        const tEl = document.getElementById('transcript-text');
+        tEl.textContent = data.transcript || '';
+        tEl.className = data.transcript ? '' : 'no-data';
+        if (!data.transcript) tEl.textContent = 'Waiting for speech…';
+
+        renderTone(data.tone || {});
+        renderMarkets(data.markets || []);
+        renderBets(data.bets || []);
+        renderPnl(data.pnl || {});
+
+        // Status
+        document.getElementById('status-dot').className = 'dot';
+        document.getElementById('status').lastChild.textContent =
+          'Live · updated ' + new Date().toLocaleTimeString();
+      } catch (e) {
+        document.getElementById('status-dot').className = 'dot err';
+        document.getElementById('status').lastChild.textContent = 'Error: ' + e.message;
+      }
+    }
+
+    fetchState();
+    setInterval(fetchState, 1000);
+  </script>
+</body>
 </html>
