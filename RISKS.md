@@ -32,7 +32,7 @@ Each: ID · description · severity · owner · mitigation · status.
 - **Detail:** Highest-value single document (April 21 2026 confirmation hearing) and paywalled WSJ pieces require manual ingestion by Neal. If corpus is thin or skewed (e.g. only old FRASER speeches), the diction model won't reflect Warsh's *current* triangulated stance.
 - **Mitigation:** Scraper code prioritizes recency-weighted, high-signal sources; corpus/manual/ ingestion path for paywalled material; G1 held-out accuracy gate catches a weak model before any capital.
 - **Owner:** Neal (ingest) + Fable (scraper + model)
-- **Status:** OPEN.
+- **Status:** 🟢 LARGELY MITIGATED (2026-06-11). Fable pulled a 25-doc / 128,622-word corpus directly (sandbox doesn't block the domains — see DECISIONS D5): all 18 Fed Governor speeches (2006–2010) + the **April-21-2026 confirmation hearing** (27k-word Rev transcript — the brief's highest-value doc) + 6 Hoover essays/lectures/interviews (incl. Commanding Heights, "Inflation Is A Choice"). Both eras covered; model predicts `inflation is a`→`choice`. **Remaining gaps:** (1) WSJ op-eds (paywalled; archive.org CDX timed out) — non-blocking since the §4.1 signal lexicon is hardcoded and detects phrases live regardless of corpus frequency; (2) the hearing transcript mixes senators' words with Warsh's — a future refinement is to extract Warsh-only turns for cleaner diction stats; (3) C2 fingerprint-lift baseline is too small (noisy stopword lift) — model is fine, the lift *report* needs a real baseline.
 
 ## 🟡 R5 — Live latency budget (STT → inference → order) is tight
 - **Severity:** 🟡 medium
