@@ -57,9 +57,11 @@ C5 and C6 are the join points: C5 needs C2 (model) + Powell transcripts; C6 need
 
 ## Per-subsystem plan index
 - [x] `docs/superpowers/plans/2026-06-09-c1-warsh-corpus-scraper.md` — **DONE, merged to master (15 tests)**
-- [x] `docs/superpowers/plans/2026-06-10-c2-diction-model.md` — planned; building (parallel worktree)
-- [x] `docs/superpowers/plans/2026-06-10-c4-context-agent.md` — planned; building (parallel worktree)
-- [x] `docs/superpowers/plans/2026-06-10-c7-kalshi-trader.md` — planned; building (parallel worktree)
-- [ ] C5 backtest.py — two-level validation (needs C2)
+- [x] `docs/superpowers/plans/2026-06-10-c2-diction-model.md` — **DONE, merged + pushed (13 tests)**
+- [x] `docs/superpowers/plans/2026-06-10-c4-context-agent.md` — **DONE, merged + pushed (7 tests)**
+- [x] `docs/superpowers/plans/2026-06-10-c7-kalshi-trader.md` — **DONE, trading-reviewed, merged + pushed (17 tests)**
+- [ ] C5 backtest.py — two-level validation (needs C2) ← **next**
 - [ ] C6 live_predictor.py — STT → inference → signal (needs C2+C4+C7)
 - [ ] C8 dashboard — wire to live feeds
+
+**Build status:** C1+C2+C4+C7 complete, **52 tests green**, all pushed to black-box. Remaining: C5 (backtest/gates), C6 (live predictor), C8 (dashboard).

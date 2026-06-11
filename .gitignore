@@ -10,3 +10,5 @@ corpus/warsh_corpus.manifest.json
 corpus/raw/
 models/*.pkl
 output/priors/
+output/paper_trades.jsonl
+output/*.jsonl
