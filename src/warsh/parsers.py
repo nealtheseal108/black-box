@@ -1,5 +1,4 @@
 import re
-from datetime import datetime
 from bs4 import BeautifulSoup
 from src.warsh.models import Document
 from src.warsh.normalize import clean_html, normalize_whitespace, tag_context_type
@@ -37,25 +36,33 @@ def _doc_from_parts(source, title, date, url, body_html_or_text, is_html=True):
     )
 
 
-def parse_fed_speech(html: str, url: str) -> Document:
+def _parse_fed_like(html: str, url: str, source: str) -> Document:
+    """Shared logic for Fed-style pages (FRASER and federalreserve.gov)."""
     soup = BeautifulSoup(html, "html.parser")
-    title = (soup.find(class_="title") or soup.find("h1")).get_text(strip=True)
+    title_node = soup.find(class_="title") or soup.find("h1")
+    if title_node is None:
+        raise ValueError(f"no title element found in {url}")
+    title = title_node.get_text(strip=True)
     date_node = soup.find(class_="article__time") or soup.find("time")
     date = _parse_date(date_node.get_text() if date_node else "")
     body = soup.find(id="article") or soup.find("article") or soup.body
-    return _doc_from_parts("fed", title, date, url, str(body), is_html=True)
+    return _doc_from_parts(source, title, date, url, str(body), is_html=True)
+
+
+def parse_fed_speech(html: str, url: str) -> Document:
+    return _parse_fed_like(html, url, source="fed")
 
 
 def parse_fraser(html: str, url: str) -> Document:
-    doc = parse_fed_speech(html, url)
-    doc.source = "fraser"
-    doc.context_type = tag_context_type("fraser", doc.title)
-    return doc
+    return _parse_fed_like(html, url, source="fraser")
 
 
 def parse_hoover_html(html: str, url: str) -> Document:
     soup = BeautifulSoup(html, "html.parser")
-    title = soup.find("h1").get_text(strip=True)
+    h1 = soup.find("h1")
+    if h1 is None:
+        raise ValueError(f"no <h1> found in {url}")
+    title = h1.get_text(strip=True)
     time_node = soup.find("time")
     raw_date = time_node.get("datetime") if time_node and time_node.get("datetime") \
         else (time_node.get_text() if time_node else "")

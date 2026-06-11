@@ -44,13 +44,15 @@ def dedupe_documents(docs: list[Document]) -> list[Document]:
     return out
 
 
-def write_corpus(docs: list[Document], out_path: Path) -> None:
+def write_corpus(docs: list[Document], out_path: Path) -> dict:
     out_path.parent.mkdir(parents=True, exist_ok=True)
     with out_path.open("w", encoding="utf-8") as f:
         for d in docs:
             f.write(to_jsonl_line(d) + "\n")
+    manifest = build_manifest(docs)
     manifest_path = out_path.with_suffix(".manifest.json")
-    manifest_path.write_text(json.dumps(build_manifest(docs), indent=2), encoding="utf-8")
+    manifest_path.write_text(json.dumps(manifest, indent=2), encoding="utf-8")
+    return manifest
 
 
 def collect(manual_only: bool = False) -> list[Document]:
@@ -76,8 +78,7 @@ def main() -> None:
     ap.add_argument("--manual-only", action="store_true")
     args = ap.parse_args()
     docs = collect(manual_only=args.manual_only)
-    write_corpus(docs, OUT_PATH)
-    m = build_manifest(docs)
+    m = write_corpus(docs, OUT_PATH)
     print(f"Wrote {m['document_count']} docs / {m['total_words']} words → {OUT_PATH}", file=sys.stderr)
 
 

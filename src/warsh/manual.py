@@ -20,6 +20,8 @@ def _parse_frontmatter(raw: str) -> tuple[dict, str]:
 
 def ingest_manual_dir(path) -> list[Document]:
     path = Path(path)
+    if not path.exists():
+        return []  # no manual drop-ins yet; safe on a clean first run
     docs: list[Document] = []
     for f in sorted(list(path.glob("*.txt")) + list(path.glob("*.md"))):
         raw = f.read_text(encoding="utf-8")
