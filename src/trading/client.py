@@ -40,7 +40,14 @@ class PaperKalshiClient:
 
     Fills are simulated at the limit price and logged to output/paper_trades.jsonl.
     This is the default client and the only one that can run without credentials.
+
+    The log destination is injectable via ``log_path`` (defaults to ``_PAPER_LOG``)
+    so tests can point it at a temp dir and stay hermetic — no writes to the
+    repo-root output file.
     """
+
+    def __init__(self, log_path: Path = _PAPER_LOG) -> None:
+        self._log_path = log_path
 
     def place(self, order: Order) -> Fill:
         timestamp = datetime.now(timezone.utc).isoformat()
@@ -70,8 +77,8 @@ class PaperKalshiClient:
             "timestamp": fill.timestamp,
             "mode": order.mode,
         }
-        _PAPER_LOG.parent.mkdir(parents=True, exist_ok=True)
-        with _PAPER_LOG.open("a") as fh:
+        self._log_path.parent.mkdir(parents=True, exist_ok=True)
+        with self._log_path.open("a") as fh:
             fh.write(json.dumps(record) + "\n")
 
 
