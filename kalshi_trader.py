@@ -54,6 +54,12 @@ def _load_config() -> dict:
     bankroll_raw = os.environ.get("BANKROLL", "").strip()
     bankroll = float(bankroll_raw) if bankroll_raw else None
     max_aggregate = float(os.environ.get("MAX_AGGREGATE", "10000"))
+    if fee == 0.0:
+        log.warning(
+            "KALSHI_FEE is unset (0.0) — the G3 net-edge floor is NOT accounting for fees, "
+            "so paper P&L will be overstated. Set KALSHI_FEE to the real Kalshi fee per "
+            "contract before the June-16 run and before any live use."
+        )
     return dict(mode=mode, threshold=threshold, fee=fee, bankroll=bankroll,
                 max_aggregate=max_aggregate)
 
@@ -156,12 +162,13 @@ def main() -> None:
             if not line:
                 continue
             d = json.loads(line)
-            signals.append(Signal(
+            # SAFETY: derive edge/side from model_prob vs market_price via the canonical
+            # constructor. Never trust edge/side carried in the file — a stale or mismatched
+            # side from upstream (C6) would otherwise open a position in the WRONG direction.
+            signals.append(Signal.from_quote(
                 ticker=d["ticker"],
                 model_prob=d["model_prob"],
                 market_price=d["market_price"],
-                edge=d["edge"],
-                side=d["side"],
                 timestamp=d.get("timestamp", datetime.now(timezone.utc).isoformat()),
             ))
 

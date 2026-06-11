@@ -17,8 +17,9 @@ from typing import Protocol, runtime_checkable
 
 from src.trading.types import Fill, KalshiMarket, Order
 
-# Output path for paper trade log
-_PAPER_LOG = Path("output/paper_trades.jsonl")
+# Output path for paper trade log — pinned to the repo root so it doesn't depend on cwd
+# (keeps tests hermetic regardless of where pytest is invoked from).
+_PAPER_LOG = Path(__file__).resolve().parents[2] / "output" / "paper_trades.jsonl"
 
 
 @runtime_checkable

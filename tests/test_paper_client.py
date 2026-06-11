@@ -17,3 +17,12 @@ def test_make_client_refuses_live_without_explicit_opt_in(monkeypatch):
     monkeypatch.delenv("SPEECHEDGE_ALLOW_LIVE", raising=False)
     with pytest.raises(RuntimeError, match="live"):
         make_client(mode="live")   # live requires explicit, loud opt-in (E4)
+
+
+def test_make_client_refuses_live_without_credentials(monkeypatch):
+    # Second half of the E4 gate: opt-in set, but keys absent → still refuses.
+    monkeypatch.setenv("SPEECHEDGE_ALLOW_LIVE", "1")
+    monkeypatch.delenv("KALSHI_API_KEY", raising=False)
+    monkeypatch.delenv("KALSHI_API_SECRET", raising=False)
+    with pytest.raises(RuntimeError, match="KALSHI_API_KEY"):
+        make_client(mode="live")
