@@ -62,6 +62,17 @@ C5 and C6 are the join points: C5 needs C2 (model) + Powell transcripts; C6 need
 - [x] `docs/superpowers/plans/2026-06-10-c7-kalshi-trader.md` — **DONE, trading-reviewed, merged + pushed (17 tests)**
 - [x] `docs/superpowers/plans/2026-06-10-c5-backtest.md` — **DONE, merged + pushed (10 tests)**
 - [x] `docs/superpowers/plans/2026-06-10-c6-live-predictor.md` — **DONE, merged + pushed (10 tests)**
-- [ ] C8 dashboard — React, wire to live feeds ← **last component**
+- [x] `docs/superpowers/plans/2026-06-10-c8-dashboard.md` — **DONE, merged + pushed (7 tests); real server boot-verified**
 
-**Build status:** C1–C7 complete (all Python components), **72 tests green**, all pushed to black-box. Remaining: **C8 dashboard** (React/frontend). Powell Level-2 data (G2/G3) is owner-provided; G1 runs as soon as the corpus exists. June-16 paper run is wired end-to-end: C6 (live predictor) → C7 (paper trader).
+**Build status:** 🎉 **All 8 components (C1–C8) complete. 79 tests green. All pushed to black-box.** Dashboard boots and serves `/api/state` + `/` live.
+
+## Owner-gated for a real June-16 run (code is done; these are data/credentials):
+1. **C1 corpus** — run `python scrape_warsh.py` + manually ingest the April-21 hearing + WSJ → `corpus/manual/`. Unblocks G1.
+2. **Powell data** — transcripts + historical Kalshi prices → wire `backtest.py` Level-2 loader. Unblocks G2/G3.
+3. **E3 audio** — confirm Deepgram cost; wire `live_predictor.py` transcriber.
+4. **E5 Kalshi account** + **E1 bankroll** — for paper-with-real-quotes / eventual live.
+5. **`KALSHI_FEE`** — set to real fee before the run (trader warns if 0).
+6. **Gate review (G1–G4)** before ANY live capital (Brief §6).
+
+## Deferred (post-June-16, per Brief §5):
+- C3 Trump pipeline — second speaker, after Warsh post-mortem + fine-tune.
