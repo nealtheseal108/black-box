@@ -61,7 +61,7 @@ C5 and C6 are the join points: C5 needs C2 (model) + Powell transcripts; C6 need
 - [x] `docs/superpowers/plans/2026-06-10-c4-context-agent.md` — **DONE, merged + pushed (7 tests)**
 - [x] `docs/superpowers/plans/2026-06-10-c7-kalshi-trader.md` — **DONE, trading-reviewed, merged + pushed (17 tests)**
 - [x] `docs/superpowers/plans/2026-06-10-c5-backtest.md` — **DONE, merged + pushed (10 tests)**
-- [ ] C6 live_predictor.py — STT → inference → signal (needs C2+C4+C7) ← **next**
-- [ ] C8 dashboard — wire to live feeds
+- [x] `docs/superpowers/plans/2026-06-10-c6-live-predictor.md` — **DONE, merged + pushed (10 tests)**
+- [ ] C8 dashboard — React, wire to live feeds ← **last component**
 
-**Build status:** C1+C2+C4+C5+C7 complete, **62 tests green**, all pushed to black-box. Remaining: C6 (live predictor — the June-16 loop), C8 (dashboard). Powell Level-2 data (G2/G3) is owner-provided; G1 runs as soon as the corpus exists.
+**Build status:** C1–C7 complete (all Python components), **72 tests green**, all pushed to black-box. Remaining: **C8 dashboard** (React/frontend). Powell Level-2 data (G2/G3) is owner-provided; G1 runs as soon as the corpus exists. June-16 paper run is wired end-to-end: C6 (live predictor) → C7 (paper trader).
