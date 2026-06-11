@@ -34,6 +34,12 @@ Format reference: Authority Matrix is §7 of the Program Brief. Defaults accepte
 
 ---
 
+### D5 — Corpus scraping works from this environment; brief's "sandbox blocks domains" claim is FALSE
+- **Decision/finding:** Empirically verified (2026-06-11) that Bash/`requests` and WebFetch reach `federalreserve.gov` and `hoover.org` (HTTP 200). The brief's §7 claim that "the agent network sandbox blocks every target domain" is **not true here** — so C1 scraping is NOT owner-blocked. Fable ran it directly.
+- **Done:** Pulled all **18 Warsh Board-of-Governors speeches (2006–2010)** from federalreserve.gov via `scrape_warsh.py` (verified URLs now in `SOURCES`), plus 3 recent Hoover docs (Commanding Heights 2025 lecture, Cogan–Warsh 2022 essay, "Inflation Is A Choice") into `corpus/manual/`. Corpus = **21 docs / 80,387 words**. Model now predicts `inflation is a` → `choice` (0.75) and the §4.1 signal phrases are present.
+- **Impact:** R1/R4 substantially de-risked — the corpus critical path is unblocked without waiting on Neal. Remaining gap is recency/coverage (see RISKS R4), not access.
+- **Authority:** Owner-directed ("absolutely necessary"); finding logged.
+
 ## Accepted defaults (from Authority Matrix §7)
 Logged per Rule 2 — accepted unless evidence says otherwise.
 

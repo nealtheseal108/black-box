@@ -19,9 +19,27 @@ OUT_PATH = CORPUS_DIR / "warsh_corpus.jsonl"
 
 # (source_url, parser, kwargs) — seed registry; expand as URLs are confirmed.
 # FRASER 2006-11 Governor speeches, Fed fallback, Hoover pages/PDFs, WSJ via archive.org, hearing.
+_FED = "https://www.federalreserve.gov/newsevents/speech/"
+# Verified live (2026-06-11) — Warsh's complete Board-of-Governors speech archive 2006–2010.
 SOURCES = [
-    # ("https://fraser.stlouisfed.org/...", parsers.parse_fraser, {}),
-    # ("https://www.hoover.org/...",        parsers.parse_hoover_html, {}),
+    (_FED + "warsh20060718a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20061121a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20070305a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20070605a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20070921a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20071005a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20071107a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20080414a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20080521a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20080728a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20081106a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20090406a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20090616a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20090925a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20100203a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20100326a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20100628a.htm", parsers.parse_fed_speech, {}),
+    (_FED + "warsh20101108a.htm", parsers.parse_fed_speech, {}),
 ]
 
 
