@@ -50,6 +50,17 @@ Format reference: Authority Matrix is §7 of the Program Brief. Defaults accepte
 
 ---
 
+## 2026-06-12
+
+### D7 — Level-1 calibration harness shipped (2A); first multi-event read exposes empty-phase overconfidence
+- **Decision:** Mention-model validation is now multi-event: leave-one-event-out over Warsh's corpus against a curated 40-term Fed/macro lexicon, scored as a pooled (prediction, outcome) set with Brier, log-loss, AUC, and a reliability diagram. Speaker-agnostic via CorpusLoader/VocabularySource seams (Powell/SOTU real market term-lists plug in later). Spec: `docs/superpowers/specs/2026-06-12-backtest-harness-design.md`.
+- **Result (Warsh LOO, recency 4y):** 26 events scored / 3 skipped, 1040 (pred,outcome) pairs, base rate 0.327. **Brier 0.2658, log-loss 0.7321, AUC 0.8123.** The rosy n=1 hearing (Brier 0.1375) was misleading, as predicted.
+- **Finding (drives 2B):** Strong ranking (AUC 0.81 — selection works) but badly miscalibrated sizing. Root cause, confirmed by the reliability diagram + a per-term probe: when a speaker has ZERO prior docs in a phase, that phase's add-k rate defaults to 0.5 (the n=0 Jeffreys prior), and the noisy-OR then floors EVERY term's event probability at >=0.5 — inflating rare terms into the 0.5-0.6 band (37% of predictions, ~10% observed). Fix in 2B: an unobserved phase must contribute ~0, not 0.5; then recalibrate.
+- **Scope:** 2A done. 2B's first task is the empty-phase fix + recalibration. 2C is live Mode-2. Level-2 P&L remains out (no historical price data).
+- **Authority:** Owner-directed.
+
+---
+
 ## Accepted defaults (from Authority Matrix §7)
 Logged per Rule 2 — accepted unless evidence says otherwise.
 
