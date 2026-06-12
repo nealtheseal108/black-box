@@ -10,3 +10,16 @@ def evaluate_gates(m: dict) -> dict:
     }
     report["all_pass"] = g1 and g2 and g3
     return report
+
+
+def evaluate_mention_gate(brier: float, threshold: float = 0.25) -> dict:
+    """G1' — mention calibration. Lower Brier is better; pass if strictly below threshold.
+
+    Threshold default 0.25 is a placeholder baseline (a constant-0.5 predictor scores
+    exactly 0.25); recalibrate from the Powell + hearing backtests per spec.
+    """
+    return {
+        "pass": brier < threshold,
+        "metric": brier,
+        "threshold": f"< {threshold}",
+    }
