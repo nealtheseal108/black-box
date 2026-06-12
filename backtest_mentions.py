@@ -32,13 +32,18 @@ def resolve_outcomes(terms: list[MarketTerm], event_text: str) -> dict[str, int]
     return {t.canonical: int(t.mentioned_in(event_text)) for t in terms}
 
 
-def run_calibration() -> dict:
+def run_calibration(as_of: str | None = HEARING_DATE) -> dict:
+    """Backtest the Mode-1 predictor against the resolved hearing.
+
+    `as_of` recency-weights the base rate to the event date (default: the hearing
+    date). Pass `as_of=None` for the unweighted estimate (used for A/B comparison).
+    """
     docs = _load_corpus()
     terms = load_terms(TERMS_FIXTURE)
     train, test = split_before(docs, HEARING_DATE)
     event_text = " ".join(d["text"] for d in test)
 
-    priors = predict_event_priors(train, terms, news_context="", adjuster=NullAdjuster())
+    priors = predict_event_priors(train, terms, news_context="", adjuster=NullAdjuster(), as_of=as_of)
     pred_by_term = {c: row["p_prior"] for c, row in priors.items()}
     outcome_by_term = resolve_outcomes(terms, event_text)
 

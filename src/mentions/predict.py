@@ -7,7 +7,7 @@ calibration gate scores.
 from __future__ import annotations
 
 from src.mentions.terms import MarketTerm
-from src.mentions.base_rate import event_base_rate
+from src.mentions.base_rate import event_base_rate, DEFAULT_HALF_LIFE_YEARS
 from src.mentions.news_adjuster import NewsAdjuster, apply_multipliers, clamp_multiplier
 
 
@@ -17,8 +17,10 @@ def predict_event_priors(
     news_context: str,
     adjuster: NewsAdjuster,
     k: float = 0.5,
+    as_of: str | None = None,
+    half_life_years: float = DEFAULT_HALF_LIFE_YEARS,
 ) -> dict[str, dict]:
-    base = {t.canonical: event_base_rate(docs, t, k) for t in terms}
+    base = {t.canonical: event_base_rate(docs, t, k, as_of, half_life_years) for t in terms}
     base_event = {c: v["p_event"] for c, v in base.items()}
 
     raw_mults = adjuster.multipliers([t.canonical for t in terms], news_context)
