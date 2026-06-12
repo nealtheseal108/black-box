@@ -51,6 +51,11 @@ def phase_base_rate(
     recent docs count more — the weighted add-k estimate.
     """
     pool = _phase_docs(docs, phase_types)
+    if not pool:
+        # No docs of this phase => no evidence. Contribute 0 to the noisy-OR (so
+        # P_event collapses to the observed phase) rather than the n=0 Jeffreys
+        # prior of 0.5, which floored every term's event probability at >=0.5.
+        return 0.0
     if as_of is None:
         weights = [1.0] * len(pool)
     else:

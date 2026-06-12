@@ -44,6 +44,30 @@ def test_event_base_rate_bundles_all_three():
     assert math.isclose(out["p_event"], combine_phases(out["p_prep"], out["p_qa"]), rel_tol=1e-9)
 
 
+def test_empty_phase_contributes_zero_not_half():
+    # The empty-phase bug: a phase with NO docs returned the n=0 Jeffreys prior (0.5),
+    # which the noisy-OR then floored every term at >=0.5. No docs => no evidence => 0.0.
+    prep_only = [
+        {"context_type": "speech", "date": "2008-01-01", "text": "inflation"},
+        {"context_type": "speech", "date": "2009-01-01", "text": "growth"},
+    ]
+    rare = MarketTerm(canonical="stagflation", patterns=(r"\bstagflation\b",))
+    assert phase_base_rate(prep_only, rare, QA_TYPES, k=0.5) == 0.0   # QA phase unobserved
+
+
+def test_event_rate_not_floored_when_one_phase_unobserved():
+    # With only prep docs, P_event must equal the prep rate (no 0.5 noisy-OR floor).
+    prep_only = [
+        {"context_type": "speech", "date": "2008-01-01", "text": "inflation"},
+        {"context_type": "speech", "date": "2009-01-01", "text": "growth"},
+    ]
+    rare = MarketTerm(canonical="stagflation", patterns=(r"\bstagflation\b",))
+    out = event_base_rate(prep_only, rare, k=0.5)
+    assert out["p_qa"] == 0.0
+    assert math.isclose(out["p_event"], out["p_prep"], rel_tol=1e-9)
+    assert out["p_event"] < 0.2   # rare term no longer inflated to ~0.5
+
+
 def test_recency_weight_halves_each_half_life():
     from src.mentions.base_rate import recency_weight
     # a doc one half-life (4y) before the event gets weight 0.5; same-day gets 1.0
