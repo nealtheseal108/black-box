@@ -58,6 +58,11 @@ phrases it. The model does **not** invent its own terms (discovery is out of sco
 - Both feed: **edge = |P_model − market_price|**, gated and Kelly-sized by the existing
   trading layer (C7), in **paper mode** by default (Authority Matrix E4 — live capital needs
   explicit owner sign-off and passing gates).
+- **Target the mispriced terms, not uniform coverage.** Prior art (SOTU mention markets) shows
+  the obvious high-frequency terms are efficiently priced (~90%+) — no edge there. The trading
+  layer **ranks terms by `|P_model − price|`** and concentrates on the uncertain middle
+  (~0.3–0.7) and news-sensitive tail, where our news-conditioning can beat stale base-rate
+  pricing. A correct prediction on a term the market already prices at 0.95 earns ~nothing.
 
 ---
 
@@ -66,6 +71,29 @@ phrases it. The model does **not** invent its own terms (discovery is out of sco
 The model fuses the three inputs with a **statistical backbone + bounded LLM reasoning**.
 The LLM is used where it is irreplaceable (reasoning about news, forecasting upcoming
 content) and statistics are used where speed, determinism, and calibration matter.
+
+### 3.0 Phase decomposition (prepared statement vs. Q&A)
+
+A market term resolves YES if it is spoken **anywhere** in the event — opening statement *or*
+Q&A. So phase is **not** a market distinction; it is an internal decomposition of how we
+estimate the probability, because the two phases have very different dynamics:
+
+```
+P_event(term) = 1 − (1 − P_prep(term)) · (1 − P_qa(term))
+```
+
+- **P_prep — prepared statement.** *More* predictable, not less. Fed opening statements are
+  heavily templated (mandate → current conditions → policy stance → forward guidance), so this
+  is a high-confidence estimate from corpus base-rate + the recurring structural skeleton of
+  his/Fed opening remarks. Edge here is **early** (before the market converges) and on subtle
+  terms; once the statement is released/read, these terms resolve deterministically.
+- **P_qa — question & answer.** The genuinely uncertain, unscripted part — driven by his
+  diction habits + the day's news, and the focus of live updating. This is where the durable
+  forecasting alpha lives (Q&A can't be front-run from a leaked script).
+
+Both phases are predicted and combined into the single `P_event` the market resolves on. In
+live Mode 2, once the prepared statement is delivered, its terms collapse to resolved {0,1} and
+the live updater's remaining work is almost entirely **Q&A terms**.
 
 ### Mode 1 — before the speech (prior)
 ```
@@ -78,6 +106,8 @@ news   ─► News adjuster (LLM)  ─► multiplier(term)    (Opus 4.8, bounded
   Warsh's prior comparable events that contain the term. **Add-k (Laplace) smoothing gives a
   nonzero floor** so a term he has never said on record is not trapped at 0 (the bounded
   multiplier can then lift it). Phrasing variants are folded together before counting.
+  Produces **phase-conditioned** rates `P_prep` (from prepared remarks / opening-statement
+  structure) and `P_qa` (from Q&A-style sources), combined per §3.0.
 - **News adjuster (LLM, Opus 4.8).** Claude reads the deep news pack + term list and emits a
   **bounded multiplier per term** with a one-line rationale. **Bound: 0.25× – 4×.** The LLM can
   say "today's news makes 'independence' 4× more likely than baseline" but can **never invent a
@@ -237,3 +267,8 @@ POST-EVENT:
 2. Mode-2 LLM call cadence (per caption line vs fixed interval) and which fast model.
 3. Term-variant pattern authoring (manual list vs LLM-assisted expansion, reviewed).
 4. Confirm Warsh-debut StreamText event ID when the June broadcast page publishes.
+5. **P_prep for a first-time Chair.** Warsh has *no* prior FOMC-presser opening statements
+   (he was a Governor, never Chair — see R3). Estimate `P_prep` from the **institutional**
+   opening-statement template (Powell's presser structure) for *what topics get covered*,
+   conditioned on **Warsh's diction** for *word choice* — rather than from his own
+   (nonexistent) presser history. Resolve the exact blend in planning.
