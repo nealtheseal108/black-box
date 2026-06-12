@@ -40,6 +40,16 @@ Format reference: Authority Matrix is §7 of the Program Brief. Defaults accepte
 - **Impact:** R1/R4 substantially de-risked — the corpus critical path is unblocked without waiting on Neal. Remaining gap is recency/coverage (see RISKS R4), not access.
 - **Authority:** Owner-directed ("absolutely necessary"); finding logged.
 
+## 2026-06-11
+
+### D6 — Mentions-market reframe; G1' (Brier calibration) replaces next-token G1
+- **Decision:** SPEECHEDGE trades prediction-market *Mentions* markets (Kalshi/Polymarket) — P(Warsh utters term T during an event) vs. market price — not policy-outcome markets. The diction model is validated by **mention calibration (Brier)**, not the mis-specified next-token "top-1 accuracy" (which scored predicting function words). See spec `docs/superpowers/specs/2026-06-11-mention-prediction-model-design.md`.
+- **First real number (G1'):** Mode-1 predictor (phase-decomposed add-k base rate x bounded news multiplier) backtested on the **resolved April-21 hearing** (leakage-free date split, 28 train docs): **Brier = 0.1528, PASS** (< 0.25 placeholder threshold). The legacy next-token G1 read 17.3% and is retired. Dominant error: `recession` (predicted 0.814, not said) — argues for recency-weighting in Plan 2.
+- **Scope:** Plan 1 (Mode-1 predictor + calibration gate) shipped via subagent-driven TDD. Mode-2 live (StreamText + real-time LLM) = Plan 2; trading + dashboard = Plan 3.
+- **Authority:** Owner-directed (mentions reframe) + Autonomous (metric correction, logged).
+
+---
+
 ## Accepted defaults (from Authority Matrix §7)
 Logged per Rule 2 — accepted unless evidence says otherwise.
 
