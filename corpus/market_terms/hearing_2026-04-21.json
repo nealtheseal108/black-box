@@ -1,0 +1,10 @@
+[
+  {"canonical": "rate cut", "patterns": ["rate cut", "cut rate", "cut\\w*(?:\\s+\\w+)*\\s+rates?", "rates?(?:\\s+\\w+)*\\s+cut"]},
+  {"canonical": "trump", "patterns": ["\\btrump\\b"]},
+  {"canonical": "inflation", "patterns": ["\\binflation\\b"]},
+  {"canonical": "independence", "patterns": ["independen"]},
+  {"canonical": "recession", "patterns": ["\\brecession\\b"]},
+  {"canonical": "stagflation", "patterns": ["\\bstagflation\\b"]},
+  {"canonical": "quantitative easing", "patterns": ["quantitative easing", "\\bqe\\b"]},
+  {"canonical": "soft landing", "patterns": ["soft landing"]}
+]
