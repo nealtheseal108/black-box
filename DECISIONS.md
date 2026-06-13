@@ -59,6 +59,13 @@ Format reference: Authority Matrix is §7 of the Program Brief. Defaults accepte
 - **Scope:** 2A done. 2B's first task is the empty-phase fix + recalibration. 2C is live Mode-2. Level-2 P&L remains out (no historical price data).
 - **Authority:** Owner-directed.
 
+### D8 — Live Mode-2 mention tracking shipped (2C); hearing replay exposed + fixed propagation saturation
+- **Decision:** Real-time during-speech tracking: seed per-term log-odds from Mode-1 priors, then per caption delta resolve spoken terms deterministically (P=1, settle) and propagate frozen clamped corpus co-occurrence weights into unsaid terms' log-odds (fire-once). No LLM in the hot path; A.3-preserved (weights frozen, RL episodes collected not trained). Live feed = Fed StreamText (`CFI-FRB`); offline-validated by replaying the resolved April-21 hearing. Spec: `docs/superpowers/specs/2026-06-12-live-mode2-design.md`.
+- **Result (hearing replay, 353 chunks, 40 terms tracked):** all 20 spoken terms resolve to 1.0 (incl. rate cut, trump, inflation, independence, quantitative easing); unsaid terms held below certainty (soft landing 0.04, stagflation 0.70, recession 0.94) — correct resolution, no saturation.
+- **Finding + fix:** the replay exposed a saturation bug — fire-once stops a repeated word from double-counting but does NOT bound the SUM across many distinct evidence terms, so a content-rich event (20 of 40 lexicon terms spoken) pushed unsaid correlated terms to ~1.0. Fixed by capping cumulative propagation per term at +/- prop_cap (2.0 log-odds). The residual high prior on `recession` is the same 2A calibration issue, deferred to 2B.
+- **Scope:** 2C done (paper-default; live order still gated by SPEECHEDGE_ALLOW_LIVE + creds). Deferred: real-time LLM forecaster, clock/hazard signal, self-run STT fallback, offline RL training. 2B (recalibration/tuning, incl. prop_cap) remains.
+- **Authority:** Owner-directed.
+
 ---
 
 ## Accepted defaults (from Authority Matrix §7)
