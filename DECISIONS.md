@@ -68,6 +68,16 @@ Format reference: Authority Matrix is §7 of the Program Brief. Defaults accepte
 
 ---
 
+## 2026-06-13
+
+### D9 — Live trading integration shipped (cross-venue, paper); trading-code-reviewer found + fixed a look-ahead bug
+- **Decision:** The Mode-2 tracker now places (paper) bets. A curated term→venue mapping (`corpus/markets/june_presser.json`) links each model term to its Kalshi ticker + Polymarket id; `CrossVenueQuotes` pulls both prices; `TradeExecutor` routes each one-shot bet to the higher after-fee net-edge venue, gates (C7 G3), sizes (quarter-Kelly, paper notional $1k), places on `PaperKalshiClient`, and logs the RL episode at settlement. Double-trading and wrong-market are structurally impossible (one-shot set; unmapped terms refused). Spec: `docs/superpowers/specs/2026-06-13-live-trading-integration-design.md`.
+- **Reviewed (`trading-code-reviewer`):** Confirmed paper-only is airtight (no route to a live order on this path), Kelly capped, gate applied to the routed signal, settlement P&L signs correct for both YES and NO. **Found + fixed:** **C1 (CRITICAL look-ahead)** — `evaluate()` ran after `consume()`, so a term was "traded" at P=1.0 the instant it resolved and settled as a guaranteed win, manufacturing P&L; fixed by skipping probabilities of exactly 1.0/0.0 (resolution flags, not forecasts) so only genuine pre-resolution edge is traded. **I2** — Polymarket `outcomePrices[0]` assumed YES (could invert prices) → resolve the YES index by label. **I3** — `settle()` defaulted a missing outcome to 0 (fabricated P&L) → skip unknown outcomes. **M1** — guard None/NaN/out-of-range venue price before sizing. **M2** — idempotent settle. **Deferred to real-quote wiring:** **I1** — real adapters should fetch the *ask* (not `yes_bid`) for the side being bought and add a slippage term so "edge after fees" is after-cost; **M3** — `total_pnl` re-reads the episode file (over-counts against a persistent path). Both belong with the near-event real-quote adapters.
+- **Scope:** Paper only (live still behind `SPEECHEDGE_ALLOW_LIVE` + creds). Near-event work: re-author the mapping against the live markets; wire real Kalshi/Polymarket quote endpoints (ask + slippage per I1); confirm the StreamText event id for Warsh's debut. 2B (recalibration/tuning) remains.
+- **Authority:** Owner-directed.
+
+---
+
 ## Accepted defaults (from Authority Matrix §7)
 Logged per Rule 2 — accepted unless evidence says otherwise.
 
