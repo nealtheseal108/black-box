@@ -18,6 +18,9 @@ from src.mentions.predict import predict_event_priors
 from src.live.cooccurrence import cooccurrence_weights
 from src.live.tracker import LiveMentionTracker
 from src.live.streamtext import ReplayStream
+from src.trading.executor import TradeExecutor
+from src.trading.client import PaperKalshiClient
+from src.live.episode_log import EpisodeLogger
 
 CORPUS = Path("corpus/warsh_corpus.jsonl")
 LEXICON = Path("corpus/lexicon/fed_macro_terms.json")
@@ -52,6 +55,50 @@ def replay_hearing(chunk_words: int = 25) -> dict:
         tracker.consume(delta)
         n_chunks += 1
     return {"final_probabilities": tracker.probabilities(), "n_chunks": n_chunks}
+
+
+def replay_hearing_with_trading(quotes, mapping, paper_log, episode_log,
+                                chunk_words: int = 25, threshold: float = 0.08, fee: float = 0.02) -> dict:
+    """End-to-end: pre-speech bets on Mode-1 priors, live bets as the hearing streams,
+    then settle every position against what was actually said. Returns a trade summary.
+    `quotes` is any object with quotes_for(canonical) -> {venue: price}.
+    """
+    import json
+    from pathlib import Path
+
+    docs = _load_corpus()
+    terms = load_terms(LEXICON)
+    prior_docs = [d for d in docs if d.get("date", "") < HEARING_DATE]
+
+    priors_full = predict_event_priors(prior_docs, terms, news_context="",
+                                       adjuster=NullAdjuster(), as_of=HEARING_DATE)
+    priors = {c: row["p_prior"] for c, row in priors_full.items()}
+    weights = cooccurrence_weights(prior_docs, terms, terms, w_max=2.0)
+    tracker = LiveMentionTracker(terms=terms, priors=priors, weights=weights, evidence_terms=terms)
+
+    executor = TradeExecutor(mapping=mapping, quotes=quotes,
+                             client=PaperKalshiClient(log_path=paper_log),
+                             episode_log=EpisodeLogger(episode_log),
+                             bankroll=None, threshold=threshold, fee=fee, phase="pre")
+
+    # pre-speech: bet on Mode-1 priors
+    n_trades = len(executor.evaluate(priors))
+
+    # live: stream the hearing, bet on tracker updates
+    executor.set_phase("live")
+    for delta in ReplayStream(_hearing_text(), chunk_words=chunk_words).stream():
+        tracker.consume(delta)
+        n_trades += len(executor.evaluate(tracker.probabilities()))
+
+    # settle against realized outcomes (resolved terms => 1, else 0)
+    final = tracker.probabilities()
+    outcomes = {c: (1 if p == 1.0 else 0) for c, p in final.items()}
+    executor.settle(outcomes)
+
+    ep_path = Path(episode_log)
+    lines = ep_path.read_text().splitlines() if ep_path.exists() else []
+    total_pnl = sum(json.loads(l)["reward"] for l in lines if l.strip())
+    return {"n_trades": n_trades, "n_episodes": len(lines), "total_pnl": total_pnl}
 
 
 def main() -> None:
