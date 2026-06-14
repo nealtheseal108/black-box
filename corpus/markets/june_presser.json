@@ -1,0 +1,7 @@
+[
+  {"canonical": "rate cut", "kalshi_ticker": "KXWARSHJUNE-RATECUT", "polymarket_id": "warsh-june-rate-cut", "kalshi_question": "Will Warsh say 'rate cut' or 'cut rate'?", "polymarket_question": "Kevin Warsh says Rate Cut / Cut Rate?"},
+  {"canonical": "trump", "kalshi_ticker": "KXWARSHJUNE-TRUMP", "polymarket_id": "warsh-june-trump", "kalshi_question": "Will Warsh say 'Trump'?", "polymarket_question": "Kevin Warsh says Trump?"},
+  {"canonical": "inflation", "kalshi_ticker": "KXWARSHJUNE-INFLATION", "polymarket_id": "warsh-june-inflation", "kalshi_question": "Will Warsh say 'inflation'?", "polymarket_question": "Kevin Warsh says inflation?"},
+  {"canonical": "independence", "kalshi_ticker": "KXWARSHJUNE-INDEP", "polymarket_id": "warsh-june-independence", "kalshi_question": "Will Warsh say 'independence'?", "polymarket_question": "Kevin Warsh says independence?"},
+  {"canonical": "recession", "kalshi_ticker": "KXWARSHJUNE-RECESSION", "polymarket_id": "warsh-june-recession", "kalshi_question": "Will Warsh say 'recession'?", "polymarket_question": "Kevin Warsh says recession?"}
+]
