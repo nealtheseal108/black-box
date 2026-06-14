@@ -30,12 +30,26 @@ def _kalshi_fetch(market_id: str) -> dict | None:
 
 
 def _polymarket_fetch(market_id: str) -> dict | None:
+    import json as _json
     import requests  # lazy
     r = requests.get(f"https://gamma-api.polymarket.com/markets/{market_id}", timeout=15)
     if r.status_code != 200:
         return None
-    price = r.json().get("outcomePrices", [None])[0]
-    return {"yes_price": float(price)} if price is not None else None
+    body = r.json()
+    # gamma returns outcomes/outcomePrices as JSON-encoded strings of arrays.
+    outcomes = body.get("outcomes")
+    prices = body.get("outcomePrices")
+    if isinstance(outcomes, str):
+        outcomes = _json.loads(outcomes)
+    if isinstance(prices, str):
+        prices = _json.loads(prices)
+    if not outcomes or not prices:
+        return None
+    # Resolve the YES index by label — index 0 is NOT guaranteed to be "Yes".
+    for label, price in zip(outcomes, prices):
+        if str(label).strip().lower() == "yes":
+            return {"yes_price": float(price)}
+    return None
 
 
 class _VenueQuotesBase:

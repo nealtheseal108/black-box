@@ -44,6 +44,7 @@ class TradeExecutor:
         self._fee = fee
         self._phase = phase
         self._traded: dict[str, OpenPosition] = {}
+        self._settled: set[str] = set()
 
     def set_phase(self, phase: str) -> None:
         self._phase = phase
@@ -53,6 +54,8 @@ class TradeExecutor:
         for canonical, p in probs.items():
             if canonical in self._traded:
                 continue
+            if not (0.0 < p < 1.0):
+                continue  # 1.0/0.0 are RESOLUTION flags, not forecasts — trading them is look-ahead
             link = self._mapping.get(canonical)
             if link is None:
                 continue  # refuse unmapped — never fuzzy-match a bet
@@ -61,11 +64,15 @@ class TradeExecutor:
                 continue
             best = None
             for venue, price in venue_prices.items():
+                if not isinstance(price, (int, float)) or not (0.0 < price < 1.0):
+                    continue  # guard against a malformed/None/NaN venue price reaching sizing
                 sig = Signal.from_quote(ticker=link.ticker_for(venue), model_prob=p,
                                         market_price=price, timestamp=_now())
                 ne = net_edge(sig, self._fee)
                 if best is None or ne > best[2]:
                     best = (venue, sig, ne)
+            if best is None:
+                continue  # no usable venue price this pass
             venue, sig, _ = best
             if not passes_gate(sig, self._threshold, self._fee):
                 continue
@@ -81,8 +88,12 @@ class TradeExecutor:
 
     def settle(self, outcomes: dict[str, int]) -> None:
         for canonical, pos in self._traded.items():
-            outcome = outcomes.get(canonical, 0)
-            pnl = self._pnl(pos, outcome)
+            if canonical in self._settled:
+                continue                     # M2: never settle a position twice
+            if canonical not in outcomes:
+                continue                     # I3: don't fabricate P&L for an unknown outcome
+            pnl = self._pnl(pos, outcomes[canonical])
+            self._settled.add(canonical)
             self._episode_log.log(
                 state={"canonical": canonical, "model_prob": pos.model_prob, "phase": pos.phase},
                 action={"venue": pos.venue, "side": pos.order.side,

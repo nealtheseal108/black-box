@@ -53,6 +53,37 @@ def test_refuses_unmapped_term(tmp_path):
     assert ex.evaluate({"soft landing": 0.9}) == []
 
 
+def test_does_not_trade_resolved_or_impossible_probability(tmp_path):
+    # C1: a probability of exactly 1.0 (or 0.0) is a RESOLUTION flag, not a forecast.
+    # Trading it would be look-ahead (buy at certainty, settle a guaranteed win).
+    ex = _executor({"rate cut": {"kalshi": 0.30}}, tmp_path)
+    assert ex.evaluate({"rate cut": 1.0}) == []
+    assert ex.evaluate({"rate cut": 0.0}) == []
+
+
+def test_settle_skips_terms_without_a_known_outcome(tmp_path):
+    # I3: a traded term with no entry in outcomes must NOT be fabricated as a loss.
+    ep = tmp_path / "ep.jsonl"
+    ex = TradeExecutor(mapping=_mapping(), quotes=_FakeQuotes({"rate cut": {"kalshi": 0.30}}),
+                       client=PaperKalshiClient(log_path=tmp_path / "p.jsonl"),
+                       episode_log=EpisodeLogger(ep), bankroll=None, threshold=0.08, fee=0.02)
+    ex.evaluate({"rate cut": 0.9})
+    ex.settle({})
+    assert not ep.exists() or ep.read_text().strip() == ""
+
+
+def test_settle_is_idempotent(tmp_path):
+    # M2: calling settle twice must not double-log / double-count.
+    ep = tmp_path / "ep.jsonl"
+    ex = TradeExecutor(mapping=_mapping(), quotes=_FakeQuotes({"rate cut": {"kalshi": 0.30}}),
+                       client=PaperKalshiClient(log_path=tmp_path / "p.jsonl"),
+                       episode_log=EpisodeLogger(ep), bankroll=None, threshold=0.08, fee=0.02)
+    ex.evaluate({"rate cut": 0.9})
+    ex.settle({"rate cut": 1})
+    ex.settle({"rate cut": 1})
+    assert len(ep.read_text().strip().splitlines()) == 1
+
+
 def test_settle_logs_episode_with_pnl_sign(tmp_path):
     import json
     ep = tmp_path / "episodes.jsonl"
